@@ -17,101 +17,23 @@
                   "name": "Google Drive",
                   "url": "https://example.com",
                   "type": "gdrive"
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "code-geass",
-      "searchTitle": "Code Geass",
-      "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx126830-Mx56p5DMIjiq.png",
-      "title": "Code Geass",
-      "description": "Japonya, Britannian İmparatorluğu tarafından işgal edilir. Dışlanmış bir prens olan Lelouch, bir gizemli kızdan aldığı 'Geass' gücüyle imparatorluğu yıkmaya ant içer.",
-      "tags": [
-        "Aksiyon",
-        "Mecha",
-        "Bilim Kurgu"
-      ],
-      "seasons": [
-        {
-          "name": "Sezon 1",
-          "episodes": [
-            {
-              "number": 1,
-              "sources": [
-                {
-                  "name": "Bölüm 1",
-                  "url": "https://drive.google.com/file/d/1h1lw4O7hf8Tr_b42OvSAs_fdPGa2P2zg/preview",
-                  "type": "gdrive"
                 },
                 {
-                  "name": "Bölüm 1",
-                  "url": "https://voe.sx/qxr0c6d3oce2",
-                  "type": "voe"
-                }
-              ]
-            }
-          ]
-        }
-      ],
-      "titleEnglish": "Code Geass: Rozé of the Recapture",
-      "titleNative": "コードギアス 奪還のロゼ",
-      "titleJapanese": "コードギアス 奪還のロゼ"
-    },
-    {
-      "id": "aristocrat",
-      "searchTitle": "Tensei Kizoku no Isekai",
-      "title": "Tensei Kizoku no Isekai",
-      "description": "Kahramanımız, modern Japonya'da öldükten sonra Cain von Silford olarak reenkarne olur. Tanrılar tarafından aşırı güçlü kutsamalar alınca, yeteneklerini gizlemek zorunda kalır.",
-      "tags": [
-        "Aksiyon",
-        "Isekai",
-        "Büyü"
-      ],
-      "seasons": [
-        {
-          "name": "Sezon 1",
-          "episodes": [
-            {
-              "number": 1,
-              "sources": [
-                {
-                  "name": "Bölüm 1",
-                  "url": "https://drive.google.com/file/d/15NGPVHTzmWXAixhRCA4xvD6LgREKJ39M/preview",
-                  "type": "gdrive"
+                  "name": "OK.ru",
+                  "url": "https://example.com",
+                  "type": "dvd"
                 },
                 {
-                  "name": "Bölüm 1",
-                  "url": "https://video.sibnet.ru/video6149093",
+                  "name": "Sibnet",
+                  "url": "https://example.com",
                   "type": "sibnet"
-                },
-                {
-                  "name": "Bölüm 1",
-                  "url": "https://voe.sx/lw8blkkvaqrq",
-                  "type": "voe"
-                }
-              ]
-            },
-            {
-              "number": 2,
-              "sources": [
-                {
-                  "name": "Bölüm 2",
-                  "url": "https://drive.google.com/file/d/1ivOSdr-Vad5cK0OdX_MG5wUEk0eDumdb/preview",
-                  "type": "gdrive"
                 }
               ]
             }
           ]
         }
       ],
-      "image": "https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx129898-FRUzDtPhRigt.jpg",
-      "titleEnglish": "The World's Finest Assassin Gets Reincarnated in Another World as an Aristocrat",
-      "titleNative": "世界最高の暗殺者、異世界貴族に転生する",
-      "titleJapanese": "世界最高の暗殺者、異世界貴族に転生する"
+      "titleJapanese": "Uchi no Kaisha no Chiisai Senpai no Hanashi"
     }
   ]
 }
