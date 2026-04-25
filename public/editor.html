@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>oversubs Config GUI</title>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <style>
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #000; color: #fff; padding: 2rem; margin:0; line-height: 1.4; }
+    .tree-node { margin-left: 20px; border-left: 1px solid #333; padding-left: 15px; margin-bottom: 10px; }
+    .level-series { border-left-color: #666; }
+    .level-season { border-left-color: #555; }
+    .level-episode { border-left-color: #444; }
+    .level-source { border-left-color: #333; }
+    .card { background: rgba(20, 20, 20, 0.8); padding: 15px; border-radius: 6px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.05); }
+    input, button, select, textarea { background: #000; color: #fff; border: 1px solid #444; padding: 12px 18px; border-radius: 4px; font-family: 'Segoe UI'; font-size: 14px; min-height: 44px;}
+    input:focus, select:focus, textarea:focus { outline: none; border-color: #777; background: #050505; }
+    button { cursor: pointer; font-weight: 600; transition: all 0.2s; border: 1px solid #333;}
+    button:hover { background: #fff; color: #000; border-color: #fff; }
+    header { background: #000; padding: 1rem 2rem; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; margin: -2rem -2rem 2rem -2rem; }
+    .title-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px;}
+    .danger { color: #888; border-color: #333; }
+    .danger:hover { background: #ff5555 !important; border-color: #ff5555 !important; color: #fff !important; }
+    .btn-primary { background: #fff; color: #000; border-color: #fff; }
+    .btn-primary:hover { background: #e0e0e0; border-color: #e0e0e0; }
+    .label-tag { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #666; width: 70px; display: inline-block; }
+    .input-wide { flex: 1; min-width: 200px; }
+    [v-cloak] { display: none; }
+  </style>
+</head>
+<body>
+<div id="app" v-cloak>
+  <header>
+    <div style="display:flex; align-items:center; gap:15px;">
+      <h1 style="margin:0; font-size: 1.5rem; letter-spacing: -0.5px;">oversubs <span style="font-weight: 300;">Config Editor</span></h1>
+    </div>
+    <div style="display:flex; gap: 10px; align-items: center;">
+      <input type="file" id="import-json" @change="importJson" accept="application/json" style="display: none;" />
+      <button @click="triggerImport">JSON İçe Aktar</button>
+      <button @click="fetchFromSite" v-if="isLocal">Siteden Yükle</button>
+      <button @click="copyJson" class="btn-primary">Kopyala</button>
+      <button @click="downloadJson">İndir (config.json)</button>
+      <button @click="clearAll" class="danger">Temizle</button>
+    </div>
+  </header>
+
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
+    <div class="title-row" style="margin-bottom:20px; justify-content: space-between;">
+      <h2 style="margin:0; font-size: 1.2rem;">Kütüphane ({{ config.series.length }} Seri)</h2>
+      <button @click="addSeries" class="btn-primary">+ Yeni Seri Ekle</button>
+    </div>
+
+    <!-- SERIES LEVEL -->
+    <div v-for="(seri, s_idx) in config.series" :key="s_idx" class="tree-node level-series card">
+      <div class="title-row">
+        <span class="label-tag">SERİ</span> 
+        <input v-model="seri.title" placeholder="Seri Adı (Title)" style="font-weight:bold; width: 300px" />
+        <input v-model="seri.id" placeholder="ID (orn: code-geass)" style="width: 150px" />
+        <div style="flex:1"></div>
+        <button @click="addSeason(seri)">+ Sezon Ekle</button>
+        <button @click="removeSeries(s_idx)" class="danger" title="Seriyi Sil">Sil</button>
+      </div>
+      <div class="title-row">
+        <span class="label-tag">GÖRSEL</span> 
+        <input v-model="seri.image" placeholder="Kapak Görseli URL" class="input-wide" />
+      </div>
+      <div class="title-row">
+        <span class="label-tag">ÖZET</span> 
+        <textarea v-model="seri.description" placeholder="Seri açıklaması..." class="input-wide" rows="2"></textarea>
+      </div>
+
+      <!-- SEASON LEVEL -->
+      <div v-for="(season, sea_idx) in seri.seasons" :key="sea_idx" class="tree-node level-season card">
+        <div class="title-row">
+          <span class="label-tag">SEZON</span>
+          <input v-model="season.name" placeholder="Sezon Adı (örn: Sezon 1)" style="width: 200px" />
+          <div style="flex:1"></div>
+          <button @click="addEpisode(season)">+ Bölüm Ekle</button>
+          <button @click="removeSeason(seri, sea_idx)" class="danger">Sezonu Sil</button>
+        </div>
+
+        <!-- EPISODE LEVEL -->
+        <div v-for="(ep, ep_idx) in season.episodes" :key="ep_idx" class="tree-node level-episode card">
+          <div class="title-row">
+            <span class="label-tag">BÖLÜM</span>
+            <input type="number" v-model="ep.number" placeholder="No" style="width: 70px" />
+            <input v-model="ep.name" placeholder="Bölüm Adı (Opsiyonel)" style="width: 300px" />
+            <div style="flex:1"></div>
+            <button @click="addSource(ep)">+ Kaynak Ekle</button>
+            <button @click="removeEpisode(season, ep_idx)" class="danger">Bölümü Sil</button>
+          </div>
+
+          <!-- SOURCE LEVEL -->
+          <div v-for="(src, src_idx) in ep.sources" :key="src_idx" class="tree-node level-source card" style="padding: 10px; margin-bottom: 8px; background: rgba(0,0,0,0.3);">
+             <div class="title-row" style="margin:0;">
+               <span class="label-tag">KAYNAK</span>
+               <select v-model="src.type" style="width: 130px;">
+                 <option value="gdrive">GDrive</option>
+                 <option value="voe">Voe</option>
+                 <option value="sibnet">Sibnet</option>
+                 <option value="dvd">External</option>
+               </select>
+               <input v-model="src.name" placeholder="Etiket (örn. Türkçe Altyazı)" style="width: 180px;" />
+               <input v-model="src.url" placeholder="Video Linki" class="input-wide" />
+               <button @click="removeSource(ep, src_idx)" class="danger">X</button>
+             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div v-if="config.series.length === 0" style="text-align:center; padding: 4rem; color: #444; border: 2px dashed #222; border-radius: 12px;">
+      Henüz veri yok. Bir JSON dosyası yükleyin veya "Siteden Yükle" deyin.
+    </div>
+  </div>
+</div>
+
+<script>
+  const { createApp, ref, computed, onMounted } = Vue;
+
+  createApp({
+    setup() {
+      const config = ref({ series: [] });
+      const isLocal = ref(window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+
+      const processData = (data) => {
+        // Handle legacy "animes" key
+        if (data.animes && !data.series) {
+          data.series = data.animes;
+          delete data.animes;
+        }
+        if (data.mangas) delete data.mangas; // Manga support removed
+        if (!data.series) data.series = [];
+        
+        // Ensure sources is an array for every episode
+        data.series.forEach(s => {
+          if (s.seasons) {
+            s.seasons.forEach(sea => {
+              if (sea.episodes) {
+                sea.episodes.forEach(ep => {
+                  if (!ep.sources) ep.sources = [];
+                });
+              } else sea.episodes = [];
+            });
+          } else s.seasons = [];
+        });
+        
+        config.value = data;
+      };
+
+      const fetchFromSite = () => {
+        fetch('/src/data/config.json?t=' + Date.now())
+          .then(res => res.json())
+          .then(data => {
+            processData(data);
+          })
+          .catch(err => {
+            alert("Siteden veri yüklenirken hata oluştu. Lütfen dosyanın src/data/config.json konumunda olduğundan emin olun.");
+          });
+      };
+
+      const triggerImport = () => { document.getElementById('import-json').click(); };
+
+      const importJson = (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          try {
+            const data = JSON.parse(e.target.result);
+            processData(data);
+            alert("JSON başarıyla yüklendi!");
+          } catch(err) {
+            alert("Geçersiz JSON dosyası!");
+          }
+        };
+        reader.readAsText(file);
+      };
+
+      const addSeries = () => {
+        config.value.series.unshift({
+          id: `new-series-${Date.now()}`,
+          title: "Yeni Seri",
+          description: "",
+          image: "",
+          seasons: []
+        });
+      };
+      const removeSeries = (idx) => { if(confirm("Seriyi silmek istiyor musunuz?")) config.value.series.splice(idx, 1); };
+
+      const addSeason = (seri) => {
+        if(!seri.seasons) seri.seasons = [];
+        seri.seasons.push({ name: `Sezon ${seri.seasons.length + 1}`, episodes: [] });
+      };
+      const removeSeason = (seri, idx) => { if(confirm("Sezonu silmek istiyor musunuz?")) seri.seasons.splice(idx, 1); };
+
+      const addEpisode = (season) => {
+        if(!season.episodes) season.episodes = [];
+        season.episodes.push({ number: season.episodes.length + 1, name: "", sources: [] });
+      };
+      const removeEpisode = (season, idx) => { if(confirm("Bölümü silmek istiyor musunuz?")) season.episodes.splice(idx, 1); };
+
+      const addSource = (ep) => {
+        if(!ep.sources) ep.sources = [];
+        ep.sources.push({ name: `Kaynak ${ep.sources.length + 1}`, url: "", type: "gdrive" });
+      };
+      const removeSource = (ep, idx) => { ep.sources.splice(idx, 1); };
+
+      const clearAll = () => { if(confirm("TÜM veriyi temizlemek istediğinize emin misiniz?")) config.value.series = []; };
+
+      const copyJson = () => {
+        try {
+          const text = JSON.stringify(config.value, null, 2);
+          const el = document.createElement('textarea');
+          el.value = text;
+          document.body.appendChild(el);
+          el.select();
+          document.execCommand('copy');
+          document.body.removeChild(el);
+          alert("JSON kopyalandı!");
+        } catch (e) {
+          alert("Hata: " + e);
+        }
+      };
+
+      const downloadJson = () => {
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(config.value, null, 2));
+        const anchor = document.createElement('a');
+        anchor.setAttribute("href", dataStr);
+        anchor.setAttribute("download", "config.json");
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+      };
+
+      return {
+        config, isLocal,
+        fetchFromSite, triggerImport, importJson,
+        addSeries, removeSeries,
+        addSeason, removeSeason,
+        addEpisode, removeEpisode,
+        addSource, removeSource,
+        copyJson, downloadJson, clearAll
+      };
+    }
+  }).mount('#app');
+</script>
+</body>
+</html>

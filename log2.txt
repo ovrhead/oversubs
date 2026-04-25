@@ -1,0 +1,15 @@
+﻿aed2d41 Update README.md
+0363b22 Update README.md
+e5ce4d4 Update App.jsx
+7825b69 Update index.css
+5f932c2 Update config.json
+656f9c5 Update config.json
+9bb1e26 Update App.jsx
+05e5f59 Update index.css
+e680d06 Update config.json
+a639cab Update config.json
+4af60b1 Update config.json
+fbbdeff revert: remove all notification logic and UI
+4c6b725 fix: PWA subpath and prompt tweaks, add notification base
+3b2b5ee fix: CI/CD dependency resolution with --legacy-peer-deps
+0d5b78c Merge branch 'main' of https://github.com/overhead1108/efsanewatch

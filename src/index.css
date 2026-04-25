@@ -1,0 +1,321 @@
+/* index.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+  /* Override Fluent UI brand colors to monochrome */
+  --colorBrandForeground1: #ffffff;
+  --colorBrandForeground2: #e0e0e0;
+  --colorBrandBackground: #333333;
+  --colorBrandBackgroundHover: #444444;
+  --colorBrandBackgroundPressed: #222222;
+  --colorBrandBackgroundSelected: #555555;
+  --colorCompoundBrandForeground1: #ffffff;
+  --colorCompoundBrandForeground1Hover: #e0e0e0;
+  --colorCompoundBrandForeground1Pressed: #cccccc;
+  
+  /* OLED Black Foundation */
+  --colorNeutralBackground1: #000000;
+  --colorNeutralBackground2: rgba(20, 20, 20, 0.65);
+  --colorNeutralBackground3: rgba(30, 30, 30, 0.65);
+  --colorNeutralBackground1Hover: rgba(40, 40, 40, 0.7);
+  --colorNeutralBackground1Pressed: rgba(50, 50, 50, 0.7);
+}
+
+body {
+  background-color: #000000 !important;
+  color: #ffffff;
+  min-height: 100vh;
+  overflow-x: hidden;
+  /* MICA Effect Background Simulator, pure black base */
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.header {
+  padding: 1.2rem 5%;
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping for mobile */
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .header {
+    flex-direction: row !important;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem !important;
+    position: sticky !important; /* Keep it sticky but TINY */
+    top: 0;
+  }
+  .logo-text {
+    font-size: 1.2rem !important;
+  }
+  .search-container-header {
+    flex: 0 1 150px !important; /* Squeeze the search box */
+  }
+  fluent-text-field {
+    min-height: 32px !important;
+  }
+}
+
+.logo-text {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  cursor: pointer;
+  letter-spacing: -0.5px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem 4%;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.home-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.fluent-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.fluent-series-card {
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  padding: 0;
+  overflow: hidden;
+  background: rgba(15, 15, 15, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--borderRadiusMedium);
+  min-height: 400px; /* Made cards longer */
+}
+.fluent-series-card:hover {
+  transform: translateY(-8px);
+  background: rgba(30, 30, 30, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.fluent-cover {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  display: block;
+}
+
+.fluent-card-content {
+  padding: 1rem;
+}
+
+.fluent-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
+  color: #ffffff; /* Requested: make fluent-card-title white */
+}
+
+.detail-header {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.detail-cover {
+  width: 250px;
+  border-radius: var(--borderRadiusMedium);
+  box-shadow: var(--shadow16);
+  flex-shrink: 0;
+}
+
+.detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.detail-title {
+  font-size: 2.2rem;
+}
+
+.detail-desc {
+  color: var(--colorNeutralForeground2);
+  line-height: 1.6;
+}
+
+.selection-row {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+  padding: 1.2rem;
+  background: rgba(25, 25, 25, 0.5);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: var(--borderRadiusMedium);
+}
+
+.selection-label {
+  font-weight: 600;
+  color: #dddddd;
+}
+
+.episodes-section {
+  margin: 2rem 0;
+}
+
+.episodes-grid {
+  display: flex;
+  flex-direction: column; /* Requested: make episodes vertical */
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.sources-grid {
+  display: flex;
+  flex-direction: row !important; /* Requested: sources horizontally lined up */
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+fluent-button {
+  /* Global Monochrome Dark Theme for ALL Buttons */
+  --neutral-fill-rest: #000000 !important;
+  --neutral-fill-hover: #1a1a1a !important;
+  --neutral-foreground-rest: #ffffff !important;
+  --accent-fill-rest: #ffffff !important;
+  --accent-fill-hover: #e0e0e0 !important;
+  --accent-foreground-rest: #000000 !important;
+  
+  color: #ffffff !important; /* Default white text */
+  border: 1px solid rgba(255,255,255,0.15) !important;
+  min-height: 52px !important; /* Made them longer (taller) */
+  cursor: pointer;
+  width: auto;
+  box-sizing: border-box;
+}
+
+.episodes-grid fluent-button {
+  width: 100% !important;
+  display: flex !important;
+  justify-content: flex-start !important;
+  padding: 0 20px !important;
+}
+
+fluent-button[appearance="accent"] {
+  --accent-fill-rest: #333333 !important; /* Chosen dark grey for selected state */
+  --accent-fill-hover: #444444 !important;
+  --accent-foreground-rest: #ffffff !important;
+  color: #ffffff !important; /* Requested: buttons clicked on should have white text */
+  border: 2px solid #ffffff !important; /* Thick white border to clearly show selection */
+}
+
+fluent-button::part(control) {
+  /* Some Fluent versions use shadow DOM parts for text color */
+  color: inherit !important;
+  background: inherit !important;
+  font-weight: 600 !important;
+}
+
+fluent-text-field {
+  --neutral-fill-input-rest: #000000 !important;
+  --neutral-fill-input-hover: #111111 !important;
+  --neutral-stroke-rest: rgba(255,255,255,0.3) !important;
+  --neutral-foreground-rest: #ffffff !important;
+  --accent-fill-rest: #ffffff !important;
+  color: #ffffff !important;
+}
+
+fluent-text-field::part(control) {
+  color: #ffffff !important;
+}
+
+fluent-select {
+  --neutral-fill-input-rest: #1a1a1a;
+  --neutral-stroke-rest: rgba(255,255,255,0.1);
+}
+
+.player-container {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: rgba(10, 10, 10, 0.8);
+  backdrop-filter: blur(20px);
+  border-radius: var(--borderRadiusLarge);
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.player-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.torrent-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer {
+  padding: 2.5rem;
+  background: rgba(10, 10, 10, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  text-align: center;
+  margin-top: auto;
+}
+
+.footer-link {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+.footer-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .detail-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
