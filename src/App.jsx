@@ -84,6 +84,9 @@ function App() {
                     )}
                     <div className="fluent-card-content">
                       <h3 className="fluent-card-title">{item.title}</h3>
+                      {item.titleJapanese && (
+                        <p style={{ color: "var(--colorNeutralForeground3)", fontSize: "0.8rem", margin: "4px 0 0 0" }}>{item.titleJapanese}</p>
+                      )}
                     </div>
                   </fluent-card>
                 ))}
@@ -102,6 +105,9 @@ function App() {
               )}
               <div className="detail-info">
                   <h1 className="detail-title">{selectedItem.title}</h1>
+                  {selectedItem.titleJapanese && (
+                    <p style={{ color: "var(--colorNeutralForeground3)", fontSize: "1rem", marginTop: "-10px", marginBottom: "10px" }}>{selectedItem.titleJapanese}</p>
+                  )}
                   <p className="detail-desc">{selectedItem.description}</p>
               </div>
             </div>

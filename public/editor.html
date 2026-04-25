@@ -53,7 +53,8 @@
     <div v-for="(seri, s_idx) in config.series" :key="s_idx" class="tree-node level-series card">
       <div class="title-row">
         <span class="label-tag">SERİ</span> 
-        <input v-model="seri.title" placeholder="Seri Adı (Title)" style="font-weight:bold; width: 300px" />
+        <input v-model="seri.title" placeholder="Seri Adı (Title)" style="font-weight:bold; width: 250px" />
+        <input v-model="seri.titleJapanese" placeholder="Japanese Name (Katakana)" style="width: 250px; color: #888;" />
         <input v-model="seri.id" placeholder="ID (orn: code-geass)" style="width: 150px" />
         <div style="flex:1"></div>
         <button @click="addSeason(seri)">+ Sezon Ekle</button>
@@ -180,6 +181,7 @@
         config.value.series.unshift({
           id: `new-series-${Date.now()}`,
           title: "Yeni Seri",
+          titleJapanese: "",
           description: "",
           image: "",
           seasons: []
