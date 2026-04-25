@@ -53,9 +53,11 @@
     <div v-for="(seri, s_idx) in config.series" :key="s_idx" class="tree-node level-series card">
       <div class="title-row">
         <span class="label-tag">SERİ</span> 
-        <input v-model="seri.title" placeholder="Seri Adı (Title)" style="font-weight:bold; width: 250px" />
-        <input v-model="seri.titleJapanese" placeholder="Japanese Name (Katakana)" style="width: 250px; color: #888;" />
-        <input v-model="seri.id" placeholder="ID (orn: code-geass)" style="width: 150px" />
+        <input v-model="seri.title" placeholder="Görünen Ad (Title)" style="font-weight:bold; width: 200px" />
+        <input v-model="seri.titleEnglish" placeholder="English Name" style="width: 200px; color: #888;" />
+        <input v-model="seri.titleJapanese" placeholder="Japanese Name (Katakana)" style="width: 200px; color: #888;" />
+        <input v-model="seri.titleNative" placeholder="Native / Original" style="width: 200px; color: #888;" />
+        <input v-model="seri.id" placeholder="ID (orn: code-geass)" style="width: 120px" />
         <div style="flex:1"></div>
         <button @click="addSeason(seri)">+ Sezon Ekle</button>
         <button @click="removeSeries(s_idx)" class="danger" title="Seriyi Sil">Sil</button>
@@ -181,7 +183,9 @@
         config.value.series.unshift({
           id: `new-series-${Date.now()}`,
           title: "Yeni Seri",
+          titleEnglish: "",
           titleJapanese: "",
+          titleNative: "",
           description: "",
           image: "",
           seasons: []
